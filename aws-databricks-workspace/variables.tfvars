@@ -1,0 +1,7 @@
+name_prefix = "dinbab-tf"
+aws_profile = ""
+aws_region = ""
+databricks_account_id = ""
+databricks_host = ""
+client_id = ""
+client_secret = ""

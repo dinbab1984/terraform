@@ -1,0 +1,11 @@
+# Default ignored files
+/.idea
+/.DS_Store
+**/terraform.tfstate
+**/terraform.tfstate.backup
+**/.terraform.lock.hcl
+**/.aws
+**/.terraform
+**/aws-*
+**/*.tfvars
+
