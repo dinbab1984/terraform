@@ -31,6 +31,7 @@ data "databricks_metastore" "this" {
 }
 
 resource "databricks_metastore_assignment" "this" {
+  provider     = databricks.accounts
   metastore_id = data.databricks_metastore.this.id
   workspace_id = azurerm_databricks_workspace.this.workspace_id
   depends_on   = [azurerm_databricks_workspace.this, data.databricks_metastore.this]

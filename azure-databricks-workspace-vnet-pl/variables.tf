@@ -3,6 +3,21 @@ variable "azure_region" {
   default = "Germany West Central"
 }
 
+variable "rg_name" {
+  type    = string
+  default = "dinbab-tf-vnet-rg"
+}
+
+variable "name_prefix" {
+  type    = string
+  default = "dinbab-tf-vnet"
+}
+
+variable "dbfs_storage_account" {
+  type    = string
+  default = "dbfs4dinbabtfvnet"
+}
+
 variable "azure_tenant_id" {
   type  = string
   default = ""
@@ -21,21 +36,6 @@ variable "azure_client_id" {
 variable "azure_client_secret" {
   type  = string
   default = ""
-}
-
-variable "name_prefix" {
-  type    = string
-  default = "dinbab-tf-vnet-pl"
-}
-
-variable "dbfs_storage_account" {
-  type = string
-  default = "dbfs4dinbabtfvnetpl"
-}
-
-variable "rg_name" {
-  type    = string
-  default = "dinbab-tf-vnet-pl-rg"
 }
 
 variable "cidr_block" {
@@ -66,8 +66,36 @@ variable "pl_subnets_cidr" {
   default = "10.20.1.0/27"
 }
 
-locals {
-  tags = {
-    Owner = "dinesh.kamalakkannan@databricks.com"
-  }
+variable "databricks_host" {
+  description = "Databricks Account URL"
+  type        = string
+  default     = ""
+}
+
+variable "databricks_account_id" {
+  description = "Your Databricks Account ID"
+  type        = string
+  default = ""
+}
+
+variable "databricks_client_id" {
+  description = "Databricks Account Client Id (databricks service principal - account admin)"
+  type        = string
+  default     = ""
+}
+
+variable "databricks_client_secret" {
+  description = "Databricks Account Client Secret"
+  type        = string
+  default     = ""
+}
+
+variable "databricks_metastore" {
+  description = "Databricks UC Metastore"
+  type        = string
+  default     = ""
+}
+
+variable "tags" {
+  default = ""
 }

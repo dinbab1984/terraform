@@ -4,7 +4,7 @@ resource "azurerm_databricks_workspace" "this" {
   managed_resource_group_name           = "${var.name_prefix}-mrg"
   location                              = var.azure_region
   sku                                   = "premium"
-  tags                                  = local.tags
+  tags                                  = var.tags
   public_network_access_enabled         = true
   network_security_group_rules_required = "NoAzureDatabricksRules"
   customer_managed_key_enabled          = true
@@ -22,6 +22,19 @@ resource "azurerm_databricks_workspace" "this" {
     azurerm_subnet_network_security_group_association.public,
     azurerm_subnet_network_security_group_association.private
   ]
+}
+
+//Get metastore IDs
+data "databricks_metastore" "this" {
+  provider = databricks.accounts
+  name = var.databricks_metastore
+}
+
+resource "databricks_metastore_assignment" "this" {
+  provider    = databricks.accounts
+  metastore_id = data.databricks_metastore.this.id
+  workspace_id = azurerm_databricks_workspace.this.workspace_id
+  depends_on   = [azurerm_databricks_workspace.this, data.databricks_metastore.this, azurerm_private_endpoint.uiapi]
 }
 
 output "databricks_host" {
