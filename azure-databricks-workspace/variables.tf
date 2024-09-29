@@ -3,6 +3,21 @@ variable "azure_region" {
   default = ""
 }
 
+variable "name_prefix" {
+  type    = string
+  default = ""
+}
+
+variable "dbfs_storage_account" {
+  type    = string
+  default = ""
+}
+
+variable "rg_name" {
+  type    = string
+  default = ""
+}
+
 variable "azure_tenant_id" {
   type  = string
   default = ""
@@ -45,21 +60,6 @@ variable "databricks_client_secret" {
   description = "Databricks Account Client Secret"
   type        = string
   default     = ""
-}
-
-variable "name_prefix" {
-  type    = string
-  default = ""
-}
-
-variable "dbfs_storage_account" {
-  type    = string
-  default = ""
-}
-
-variable "rg_name" {
-  type    = string
-  default = ""
 }
 
 variable "databricks_metastore" {

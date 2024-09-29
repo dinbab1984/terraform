@@ -4,7 +4,9 @@ terraform {
   required_providers {
     azurerm = {
       source = "hashicorp/azurerm"
-      version = "4.2.0"
+    }
+    databricks = {
+      source = "databricks/databricks"
     }
   }
 }
@@ -16,4 +18,12 @@ provider "azurerm" {
   subscription_id = var.azure_subscription_id
   client_id       = var.azure_client_id
   client_secret   = var.azure_client_secret
+}
+
+provider "databricks" {
+  alias         = "accounts"
+  host          = var.databricks_host
+  account_id    = var.databricks_account_id
+  client_id     = var.databricks_client_id
+  client_secret = var.databricks_client_secret
 }
