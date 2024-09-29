@@ -1,30 +1,43 @@
+variable "tags" {
+  default = {
+    Owner = ""
+  }
+}
+
 variable "azure_region" {
   type    = string
   default = ""
 }
 
 variable "azure_tenant_id" {
-  type  = string
+  type    = string
   default = ""
 }
 
 variable "azure_subscription_id" {
-  type  = string
+  type    = string
   default = ""
 }
 
 variable "azure_client_id" {
-  type  = string
+  description = "Azure service principal with needed permissions"
+  type    = string
   default = ""
 }
 
 variable "azure_client_secret" {
-  type  = string
+  type    = string
   default = ""
 }
 
 variable "databricks_host" {
   description = "Databricks Account URL"
+  type        = string
+  default     = ""
+}
+
+variable "databricks_workspace_host" {
+  description = "Databricks Workspace URL"
   type        = string
   default     = ""
 }
@@ -47,27 +60,32 @@ variable "databricks_client_secret" {
   default     = ""
 }
 
+variable "rg_name" {
+  description = "ALDS Storage account resource group"
+  type        = string
+  default     = ""
+}
+
+variable "adls_sa_name" {
+  description = "ALDS Storage account Name"
+  type        = string
+  default     = ""
+}
+
+//nane_prefix for databricks resources
 variable "name_prefix" {
   type    = string
   default = ""
 }
 
-variable "dbfs_storage_account" {
-  type    = string
-  default = ""
-}
-
-variable "rg_name" {
-  type    = string
-  default = ""
-}
-
 variable "databricks_metastore" {
-  description = "Databricks UC Metastore"
+  description = "Name of the UC metastore"
+  type    = string
+  default = ""
+}
+
+variable "databricks_calalog" {
+  description = "Name of catalog in metastore"
   type        = string
   default     = ""
-}
-
-variable "tags" {
-  default = ""
 }

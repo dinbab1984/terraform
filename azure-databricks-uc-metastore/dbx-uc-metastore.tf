@@ -1,6 +1,7 @@
 resource "databricks_metastore" "this" {
   provider      = databricks.accounts
-  name          = var.azure_uc_metastore
+  name          = var.databricks_metastore
   force_destroy = true
-  region       = var.azure_region
+  region        = var.azure_region
 }
+

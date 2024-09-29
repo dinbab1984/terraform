@@ -2,8 +2,8 @@ variable "tags" {
   default = {}
 }
 
-variable "azure_uc_metastore" {
-  description = "Azure UC Metastore"
+variable "databricks_metastore" {
+  description = "Databricks UC Metastore"
   type        = string
   default     = "dinbab-tf-uc-metastore"
 }
@@ -25,13 +25,13 @@ variable "databricks_host" {
   default = ""
 }
 
-variable "client_id" {
+variable "databricks_client_id" {
   description = "Databricks Account Client Id"
   type        = string
   default = ""
 }
 
-variable "client_secret" {
+variable "databricks_client_secret" {
   description = "Databricks Account Client Secret"
   type        = string
   default = ""

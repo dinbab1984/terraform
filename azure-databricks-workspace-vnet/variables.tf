@@ -66,8 +66,8 @@ variable "pl_subnets_cidr" {
   default = "10.20.1.0/27"
 }
 
-locals {
-  tags = {
-    Owner = "dinesh.kamalakkannan@databricks.com"
+variable "tags" {
+  default = {
+    Owner = ""
   }
 }
