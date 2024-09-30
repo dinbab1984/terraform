@@ -90,7 +90,7 @@ resource "databricks_grants" "admins_browse_access" {
   provider = databricks.workspace
   external_location = databricks_external_location.this.id
   grant {
-    principal  = "dinesh.kamalakkannan@databricks.com"
+    principal  = var.principal_name
     privileges = ["BROWSE"]
   }
   depends_on = [databricks_external_location.this]

@@ -14,3 +14,5 @@ databricks_client_secret = ""
 databricks_metastore = ""
 databricks_calalog = "test"
 tags = { Owner = "" }
+principal_name = ""
+catalog_privileges = ["BROWSE"]

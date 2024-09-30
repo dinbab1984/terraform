@@ -8,3 +8,13 @@ resource "databricks_catalog" "this" {
   depends_on = [data.databricks_metastore.this]
 }
 
+//provide access to external location to workspace admins
+resource "databricks_grants" "grant_catalog_access" {
+  provider = databricks.workspace
+  catalog = var.databricks_calalog
+  grant {
+    principal  = var.principal_name
+    privileges = var.catalog_privileges
+  }
+  depends_on = [databricks_catalog.this]
+}

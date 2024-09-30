@@ -89,3 +89,15 @@ variable "databricks_calalog" {
   type        = string
   default     = ""
 }
+
+variable "principal_name" {
+  description = "Name of principal to grant access to catalog"
+  type        = string
+  default     = ""
+}
+
+variable "catalog_privileges" {
+  description = "List of Privileges to catalog (grant to principal_name)"
+  type        = list(string)
+  default     = ["BROWSE"]
+}
