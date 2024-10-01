@@ -15,4 +15,6 @@ databricks_account_id = ""
 databricks_client_id = ""
 databricks_client_secret = ""
 databricks_metastore = ""
+data_storage_account_rg = ""
+data_storage_account = ""
 tags = { Owner = "" }

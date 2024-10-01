@@ -1,21 +1,21 @@
 variable "azure_region" {
   type    = string
-  default = "Germany West Central"
+  default = ""
 }
 
 variable "rg_name" {
   type    = string
-  default = "dinbab-tf-vnet-rg"
+  default = ""
 }
 
 variable "name_prefix" {
   type    = string
-  default = "dinbab-tf-vnet"
+  default = ""
 }
 
 variable "dbfs_storage_account" {
   type    = string
-  default = "dbfs4dinbabtfvnet"
+  default = ""
 }
 
 variable "azure_tenant_id" {
@@ -58,12 +58,6 @@ variable "private_subnets_cidr" {
 variable "public_subnets_cidr" {
   type = string
   default = "10.20.0.128/25"
-}
-
-// for private link (backend and other azure services )
-variable "pl_subnets_cidr" {
-  type = string
-  default = "10.20.1.0/27"
 }
 
 variable "databricks_host" {

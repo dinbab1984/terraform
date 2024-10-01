@@ -68,7 +68,6 @@ resource "databricks_storage_credential" "this" {
     managed_identity_id = azurerm_user_assigned_identity.this.id
   }
   isolation_mode = "ISOLATION_MODE_ISOLATED"
-  force_update = true
   comment = "Managed identity credential managed by TF"
   depends_on = [azurerm_databricks_access_connector.this, azurerm_storage_account.this]
 }
@@ -77,11 +76,9 @@ resource "databricks_external_location" "this" {
   provider = databricks.workspace
   name = "${var.name_prefix}-external-location"
   metastore_id = data.databricks_metastore.this.id
-  url = format("abfss://%s@%s.dfs.core.windows.net", azurerm_storage_container.this.name, azurerm_storage_account.this.name)
+  url = format("abfss://%s@%s.dfs.core.windows.net/", azurerm_storage_container.this.name, azurerm_storage_account.this.name)
   credential_name = databricks_storage_credential.this.name
   isolation_mode = "ISOLATION_MODE_ISOLATED"
-  force_update = true
-  force_destroy = true
   comment         = "Managed by TF"
   depends_on = [databricks_storage_credential.this]
 }

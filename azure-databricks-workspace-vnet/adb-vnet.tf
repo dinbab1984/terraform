@@ -50,20 +50,12 @@ resource "azurerm_subnet_network_security_group_association" "public" {
   depends_on = [azurerm_subnet.public, azurerm_network_security_group.this]
 }
 
-//variable "private_subnet_endpoints" {
-//  default = []
-//}
-
 //vnet private subnet
 resource "azurerm_subnet" "private" {
   name                 = "${var.name_prefix}-private"
   resource_group_name  = var.rg_name
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = [var.private_subnets_cidr]
-
-  //private_link_service_network_policies_enabled = true
-  //private_endpoint_network_policies_enabled = true
-
   delegation {
     name = "databricks"
     service_delegation {
@@ -83,15 +75,4 @@ resource "azurerm_subnet_network_security_group_association" "private" {
   subnet_id                 = azurerm_subnet.private.id
   network_security_group_id = azurerm_network_security_group.this.id
   depends_on = [azurerm_subnet.private , azurerm_network_security_group.this]
-}
-
-//vnet private link subnet
-resource "azurerm_subnet" "plsubnet" {
-  name                                      = "${var.name_prefix}-privatelink"
-  resource_group_name                       = var.rg_name
-  virtual_network_name                      = azurerm_virtual_network.this.name
-  address_prefixes                          = [var.pl_subnets_cidr]
-  //private_link_service_network_policies_enabled = true
-  //private_endpoint_network_policies_enabled = true
-  depends_on = [azurerm_virtual_network.this]
 }
