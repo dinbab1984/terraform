@@ -1,0 +1,6 @@
+aws_region = "eu-west-1"
+databricks_metastore = "dbk-mlops-demo-uc"
+databricks_host = ""
+databricks_account_id = ""
+databricks_client_id = ""
+databricks_client_secret = ""
