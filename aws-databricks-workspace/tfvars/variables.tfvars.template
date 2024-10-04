@@ -1,0 +1,14 @@
+aws_credentials_file = ["./.aws/credentials"]
+aws_profile = ""
+aws_region = "eu-west-1"
+databricks_host = ""
+databricks_account_id = ""
+databricks_client_id = ""
+databricks_client_secret = ""
+name_prefix = "dbk-mlops-dev"
+databricks_metastore = "dbk-mlops-demo-uc"
+cidr_block = "10.20.0.0/16"
+public_subnets_cidr = {"eu-west-1a" : "10.20.1.0/24", "eu-west-1b" : "10.20.2.0/24"}
+private_subnets_cidr = {"eu-west-1a" : "10.20.3.0/24", "eu-west-1b" : "10.20.4.0/24"}
+workspace_admin = ""
+tags = { Owner = "" }

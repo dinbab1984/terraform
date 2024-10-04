@@ -1,0 +1,14 @@
+aws_credentials_file = ["./.aws/credentials"]
+aws_profile = ""
+aws_region = "eu-west-1"
+databricks_host = ""
+databricks_workspace_host = ""
+databricks_account_id = ""
+databricks_client_id = ""
+databricks_client_secret = ""
+name_prefix = "dbk-mlops-dev"
+databricks_metastore = "dbk-mlops-demo-uc"
+databricks_calalog = "dev"
+tags = { Owner = "" }
+principal_name = ""
+catalog_privileges = ["ALL_PRIVILEGES"]

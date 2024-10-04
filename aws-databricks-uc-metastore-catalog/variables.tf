@@ -28,6 +28,12 @@ variable "databricks_host" {
   default = ""
 }
 
+variable "databricks_workspace_host" {
+  description = "Databricks Workspace URL"
+  type        = string
+  default     = ""
+}
+
 variable "databricks_client_id" {
   description = "Databricks Account Client Id"
   type        = string
@@ -40,40 +46,34 @@ variable "databricks_client_secret" {
   default = ""
 }
 
+//nane_prefix for databricks resources
 variable "name_prefix" {
-  description = "Name prefix for all resources"
-  type        = string
-  default     = "dinbab-tf"
-}
-
-variable "databricks_metastore" {
-  description = "Databricks UC Metastore"
-  type        = string
-  default     = ""
-}
-
-//for vpc
-variable "cidr_block" {
-  description = "VPC CIDR block range"
-  type        = string
+  type    = string
   default = ""
 }
 
-// for cluster
-variable "public_subnets_cidr" {
-  type = map(any)
-  default = {}
+variable "databricks_metastore" {
+  description = "Name of the UC metastore"
+  type    = string
+  default = ""
 }
 
-variable "private_subnets_cidr" {
-  type = map(any)
-  default = {}
-}
-
-variable "workspace_admin" {
-  description = "Email id of workspace admin"
+variable "databricks_calalog" {
+  description = "Name of catalog in metastore"
   type        = string
   default     = ""
+}
+
+variable "principal_name" {
+  description = "Name of principal to grant access to catalog"
+  type        = string
+  default     = ""
+}
+
+variable "catalog_privileges" {
+  description = "List of Privileges to catalog (grant to principal_name)"
+  type        = list(string)
+  default     = ["BROWSE"]
 }
 
 variable "tags" {

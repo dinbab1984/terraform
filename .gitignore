@@ -11,9 +11,9 @@
 
 
 #aws in-progess ones
-**/aws-databricks-uc-metastore-catalog
-**/aws-databricks-workspace
-**/aws-databricks-workspace-fw
-**/aws-databricks-workspace-hub-spoke
-**/aws-databricks-workspace-users
+
+**/aws-databricks-workspace-pl
+**/aws-databricks-workspace-vpc-pl-fw
+**/aws-databricks-workspace-vpc-pl-fw-hub-spoke
+
 
