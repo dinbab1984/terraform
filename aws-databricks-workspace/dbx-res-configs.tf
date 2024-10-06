@@ -1,10 +1,14 @@
 //credentials configurations
+resource "time_sleep" "wait_10_seconds" {
+  create_duration = "10s"
+  depends_on = [aws_iam_role.cross_account_role, aws_iam_role_policy.this]
+}
 resource "databricks_mws_credentials" "this" {
   provider         = databricks.mws
   role_arn         = aws_iam_role.cross_account_role.arn
   credentials_name = "${var.name_prefix}-credentials"
   external_id      =  var.databricks_account_id
-  depends_on       = [aws_iam_role.cross_account_role]
+  depends_on       = [time_sleep.wait_10_seconds] // artificial wait for cross iam creation
 }
 
 //storage configurations
