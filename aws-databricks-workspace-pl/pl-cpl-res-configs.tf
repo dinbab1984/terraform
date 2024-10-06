@@ -1,7 +1,64 @@
+// this subnet houses the data plane VPC endpoints
+resource "aws_subnet" "pl_subnet" {
+  for_each               = var.pl_subnets_cidr
+  vpc_id                 = aws_vpc.this.id
+  availability_zone      = each.key
+  cidr_block             = each.value
+  map_public_ip_on_launch = false
+
+  tags = {
+    Name = "${var.name_prefix}-pl-subnet-${each.key}"
+  }
+  depends_on = [aws_vpc.this]
+}
+
+//Add security group to pl subnet
+resource "aws_security_group" "pl_subnet" {
+  name        = "Data Plane VPC endpoint security group"
+  description = "Security group shared with relay and workspace endpoints"
+  vpc_id      = aws_vpc.this.id
+
+  dynamic "ingress" {
+    for_each = toset([
+      443,
+      2443, # FIPS port for CSP
+      6666,
+    ])
+
+    content {
+      description = "Inbound rules"
+      from_port   = ingress.value
+      to_port     = ingress.value
+      protocol    = "tcp"
+      cidr_blocks = [var.cidr_block]
+    }
+  }
+
+  dynamic "egress" {
+    for_each = toset([
+      443,
+      2443, # FIPS port for CSP
+      6666,
+    ])
+
+    content {
+      description = "Outbound rules"
+      from_port   = egress.value
+      to_port     = egress.value
+      protocol    = "tcp"
+      cidr_blocks = [var.cidr_block]
+    }
+  }
+
+  tags =  {
+    Name = "${var.name_prefix}-pl-vpce-sg-rules"
+  }
+}
+
 //private links
 //rest api
 resource "aws_vpc_endpoint" "backend_rest" {
-  vpc_id              = module.vpc.vpc_id
+  vpc_id              = aws_vpc.this.id
   service_name        = var.db_rest_service
   vpc_endpoint_type   = "Interface"
   security_group_ids  = [aws_security_group.pl_subnet.id]
@@ -14,7 +71,7 @@ resource "aws_vpc_endpoint" "backend_rest" {
 }
 
 resource "aws_vpc_endpoint" "relay" {
-  vpc_id              = module.vpc.vpc_id
+  vpc_id              = aws_vpc.this.id
   service_name        = var.db_scc_relay_service
   vpc_endpoint_type   = "Interface"
   security_group_ids  = [aws_security_group.pl_subnet.id]
