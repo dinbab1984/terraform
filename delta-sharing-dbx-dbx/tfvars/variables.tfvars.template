@@ -1,0 +1,16 @@
+name_prefix = "dbk-demo"
+provider_databricks_host = ""
+provider_databricks_workspace_host = ""
+provider_databricks_account_id = ""
+provider_databricks_client_id = ""
+provider_databricks_client_secret = ""
+provider_metastore = "dbk-demo-uc-eastus" //"dinbab-tf-uc-metastore"
+recipient_databricks_host = ""
+recipient_databricks_workspace_host = ""
+recipient_databricks_account_id = ""
+recipient_databricks_client_id = ""
+recipient_databricks_client_secret = ""
+recipient_metastore = "dbk-mlops-demo-uc" //"dinbab-tf-uc-metastore"
+share_tables_name = ["dev.demo.person", "dev.demo.test"]
+principal_name = ""
+catalog_privileges = ["USE_CATALOG", "USE_SCHEMA" ,"SELECT"]
