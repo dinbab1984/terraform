@@ -18,4 +18,4 @@
 
 
 ### Network Architecture
-![alt text](./drawio/architecture.drawio)
+![alt text](./drawio/architecture.drawio.svg)
