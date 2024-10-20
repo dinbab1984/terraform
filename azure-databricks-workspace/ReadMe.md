@@ -8,7 +8,7 @@
 ### VNet to Storage
 - Default  :  Public Endpoints --> storage accounts are accessible from the Internet
 
-### 
+### Communication in a Databricks Workspace
 - The default setup uses Databricks managed VNet, however VNet injection with SCC is recommended
 - Compute Plane and Control Plane always communicate over Azure Backbone
 - Control Plane to DBFS is going over Azure Backbone since both are first party Azure services
