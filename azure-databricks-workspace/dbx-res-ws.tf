@@ -12,6 +12,7 @@ resource "azurerm_databricks_workspace" "this" {
   managed_resource_group_name = "${var.name_prefix}-mrg"
   custom_parameters {
     storage_account_name = var.dbfs_storage_account
+    no_public_ip         = false
   }
   tags                        = var.tags
   depends_on = [azurerm_resource_group.this]

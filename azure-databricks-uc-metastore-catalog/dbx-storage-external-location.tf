@@ -79,6 +79,7 @@ resource "databricks_external_location" "this" {
   url = format("abfss://%s@%s.dfs.core.windows.net/", azurerm_storage_container.this.name, azurerm_storage_account.this.name)
   credential_name = databricks_storage_credential.this.name
   isolation_mode = "ISOLATION_MODE_ISOLATED"
+  force_destroy = true
   comment         = "Managed by TF"
   depends_on = [databricks_storage_credential.this]
 }

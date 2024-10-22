@@ -60,6 +60,12 @@ variable "public_subnets_cidr" {
   default = "10.20.0.128/25"
 }
 
+//does the data plane (clusters) to control plane communication happen over private link endpoint only or publicly?
+variable "network_security_group_rules_required" {
+  type = string
+  default = "AllRules"
+}
+
 variable "databricks_host" {
   description = "Databricks Account URL"
   type        = string

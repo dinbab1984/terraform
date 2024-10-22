@@ -6,7 +6,7 @@ resource "azurerm_databricks_workspace" "this" {
   sku                                   = "premium"
   tags                                  = var.tags
   public_network_access_enabled         = true
-  network_security_group_rules_required = "NoAzureDatabricksRules"
+  network_security_group_rules_required = var.network_security_group_rules_required
   customer_managed_key_enabled          = true
   custom_parameters {
     no_public_ip                                         = true
