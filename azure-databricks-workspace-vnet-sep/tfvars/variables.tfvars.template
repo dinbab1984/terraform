@@ -1,0 +1,8 @@
+azure_tenant_id = ""
+azure_subscription_id = ""
+azure_client_id = ""
+azure_client_secret = ""
+data_storage_account_rg = "dbk-vnet-demo-adls-rg"
+data_storage_account = "adls4dbkvnetdemo"
+databricks_workspace_vnet = "dbk-vnet-demo-vnet"
+databricks_workspace_vnet_rg = "dbk-vnet-demo-rg"

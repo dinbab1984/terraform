@@ -60,6 +60,12 @@ variable "public_subnets_cidr" {
   default = "10.20.0.128/25"
 }
 
+variable "private_subnet_endpoints" {
+    type = list(string)
+    default = []
+}
+
+
 //does the data plane (clusters) to control plane communication happen over private link endpoint only or publicly?
 variable "network_security_group_rules_required" {
   type = string
