@@ -49,5 +49,5 @@
 #### Option 2 : Service Endpoints
 - Following variable to updated witth values as mentioned below:
     - `private_subnet_endpoints = ["Microsoft.Sql", "Microsoft.Storage", "Microsoft.EventHub"]`
-- Also, consider disabling the public access to storage account if not already and allow only access from worspace vnet (the module - azure-databricks-workspace-vnet-adls-nw-rules is to do that same)
+- Also, consider disabling the public access to storage account if not already and allow only access from workspace vnet (the module - azure-databricks-workspace-vnet-adls-nw-rules is to do that same)
 ![alt text](./drawio/architecture-option2.drawio.svg)
