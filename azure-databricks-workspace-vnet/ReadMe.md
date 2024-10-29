@@ -30,7 +30,8 @@
     -   Given this configuration, other subnets can be created in the VNet, e.g. to hold private endpoints for a private link configuration
 
 ### VNet to Storage
-- Default  :  Public Endpoints --> storage accounts are accessible from the Internet
+- Option 1: Default  :  Public Endpoints --> storage accounts are accessible from the Internet
+- Option 2: Service endpoint provides secure and direct connectivity to Azure services (Storage)
 
 ### Communication in an SCC workspace 
 - Setup : VNet injection with SCC
@@ -42,4 +43,11 @@
 
 
 ### Network Architecture
-![alt text](./drawio/architecture.drawio.svg)
+#### Option 1 : Public Endpoints
+![alt text](./drawio/architecture-option1.drawio.svg)
+
+#### Option 2 : Service Endpoints
+- Following variable to updated witth values as mentioned below:
+    - `private_subnet_endpoints = ["Microsoft.Sql", "Microsoft.Storage", "Microsoft.EventHub"]`
+- Also, consider disabling the public access to storage account if not already and allow only access from worspace vnet (the module - azure-databricks-workspace-vnet-adls-nw-rules is to do that same)
+![alt text](./drawio/architecture-option2.drawio.svg)
