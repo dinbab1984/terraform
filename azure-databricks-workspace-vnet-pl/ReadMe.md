@@ -10,6 +10,8 @@
 - the VNet and subnets created in advance
 - cluster VMs receive only Private IPs
 - traffic is now outbound (the cluster VMs connect to the Control Plane)
+- Back-end Private Link (for the connection between VNet and Control plane)
+
 
 #### IP address ranges of Azure Databricks
 ##### Necessary IP ranges (subnets) for VNet injection

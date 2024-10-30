@@ -3,16 +3,6 @@ variable "azure_region" {
   default = ""
 }
 
-variable "rg_name" {
-  type    = string
-  default = ""
-}
-
-variable "name_prefix" {
-  type    = string
-  default = ""
-}
-
 variable "azure_tenant_id" {
   type  = string
   default = ""
@@ -31,12 +21,6 @@ variable "azure_client_id" {
 variable "azure_client_secret" {
   type  = string
   default = ""
-}
-
-variable "databricks_workspace" {
-  description = "Databricks Workspace name"
-  type        = string
-  default     = ""
 }
 
 variable "databricks_host" {
@@ -63,14 +47,26 @@ variable "databricks_client_secret" {
   default     = ""
 }
 
-variable "adls_sa_name" {
-  description = "ALDS Storage account Name"
+variable "databricks_workspace" {
+  description = "Name of databricks workspace"
+  type = string
+  default = ""
+}
+
+variable "databricks_workspace_rg" {
+  description = "Name of databricks workspace resource group"
+  type = string
+  default = ""
+}
+
+variable "data_storage_account_rg" {
+  description = "Data Storage Account resource group (here, storage for catalog - external location)"
   type        = string
   default     = ""
 }
 
-variable "adls_sa_rg" {
-  description = "ALDS Storage account resource group"
+variable "data_storage_account" {
+  description = "Data Storage Account name (here, storage for catalog - external location)"
   type        = string
   default     = ""
 }
