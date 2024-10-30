@@ -37,8 +37,12 @@
 ### Communication in an SCC workspace 
 - Setup : VNet injection with SCC
 - Secure Cluster Connectivity reverses the call direction via the SCC Relay and removes Public IPs from the Compute Plane. 
-- Calls from Compute Plane to the Control Plane still use Public IPs
-- Control Plane to DBFS is going over Azure Backbone since both are first party Azure services
+- Calls from Compute Plane to the Control Plane via Private Link
+- Create a subnet for the private endpoints (do not define any NSG rules for a subnet that contains private endpoints)
+- On Azure, Log / Telemetry / system tables store and Artifact Store currently cannot be put behind a PE (technical limitations)
+- DBFS and customer data should be accessed via standard Private Link setups (Azure specific, not part of Databricks Private Link). Same holds for all other cloud services
+- Control Plane to DBFS uses access connector and it is private
+- DNS change for the Customer VNet: Route traffic to the private endpoint for the Web App 
 - Users access Databricks over the Public Internet
 - Do NOT use DBFS as a storage layer (e.g. no access control) but rather use storage accounts with Unity Catalog access control for all customer tables, volumes, …
 
