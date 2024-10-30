@@ -14,7 +14,7 @@
 - Control Plane to DBFS is going over Azure Backbone since both are first party Azure services
 - Nevertheless, communication between Control and Compute Plane uses Public IPs on both planes
 - Users access Databricks over the Public Internet
-- Do NOT use DBFS as a storage layer (e.g. no access control) but rather use storage accounts with Unity Catalog access control for all customer tables, volumes, …
+- Note: Do NOT use DBFS as a storage layer (e.g. no access control) but rather use storage accounts with Unity Catalog access control for all customer tables, volumes, …
 
 
 ### Network Architecture
