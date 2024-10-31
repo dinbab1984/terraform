@@ -5,6 +5,10 @@ terraform {
     azurerm = {
       source = "hashicorp/azurerm"
     }
+    restapi = {
+      source = "pruiz/restapi"
+      version = "1.16.2-p2"
+    }
   }
 }
 
@@ -15,4 +19,16 @@ provider "azurerm" {
   subscription_id = var.azure_subscription_id
   client_id       = var.azure_client_id
   client_secret   = var.azure_client_secret
+}
+
+provider "restapi" {
+  # Configuration options
+  uri = var.databricks_host
+  oauth_client_credentials{
+    oauth_client_id      = var.databricks_client_id
+    oauth_client_secret  = var.databricks_client_secret
+    oauth_token_endpoint = "${var.databricks_host}/oidc/accounts/${var.databricks_account_id}/v1/token"
+    oauth_scopes = ["all-apis"]
+
+  }
 }

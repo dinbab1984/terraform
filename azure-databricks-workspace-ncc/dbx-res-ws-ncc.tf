@@ -18,7 +18,7 @@ resource "databricks_mws_ncc_binding" "ncc_binding" {
   
 }
 
-data "azurerm_storage_account" "catalog_sa" {
+/*data "azurerm_storage_account" "catalog_sa" {
   name                = var.data_storage_account
   resource_group_name = var.data_storage_account_rg
 }
@@ -34,7 +34,6 @@ resource "azurerm_storage_account_network_rules" "allow_ws_subnet" {
   virtual_network_subnet_ids = databricks_mws_network_connectivity_config.ncc.egress_config[0].default_rules[0].azure_service_endpoint_rule[0].subnets
 }
 
-/*
 resource "databricks_mws_ncc_private_endpoint_rule" "storage" {
   provider                       = databricks.accounts
   network_connectivity_config_id = databricks_mws_network_connectivity_config.ncc.network_connectivity_config_id
