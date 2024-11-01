@@ -12,6 +12,10 @@ terraform {
       source = "pruiz/restapi"
       version = "1.16.2-p2"
     }
+    azapi = {
+      source = "Azure/azapi"
+      version = "2.0.1"
+    }
   }
 }
 
@@ -42,4 +46,15 @@ provider "restapi" {
     oauth_scopes = ["all-apis"]
 
   }
+}
+
+provider "azapi" {
+  # More information on the authentication methods supported by
+  # the AzApi Provider can be found here:
+  # https://registry.terraform.io/providers/Azure/azapi/latest/docs
+
+  subscription_id = var.azure_subscription_id
+  client_id       = var.azure_client_id
+  client_secret   = var.azure_client_secret
+  tenant_id       = var.azure_tenant_id
 }

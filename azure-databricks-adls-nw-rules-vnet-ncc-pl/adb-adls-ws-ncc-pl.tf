@@ -6,9 +6,10 @@ data "restapi_object" "ncc" {
   results_key = "items"
 }
 
-output "ncc_config_id" {
+/*output "ncc_config_id" {
   value = jsondecode(data.restapi_object.ncc.api_response).network_connectivity_config_id
 }
+*/
 
 //add ncc private endpoint rule
 resource "databricks_mws_ncc_private_endpoint_rule" "storage" {
@@ -19,3 +20,39 @@ resource "databricks_mws_ncc_private_endpoint_rule" "storage" {
   depends_on = [data.restapi_object.ncc]
 }
 
+output "name" {
+  value = databricks_mws_ncc_private_endpoint_rule.storage.endpoint_name
+}
+
+data "azapi_resource_list" "list_storage_private_endpoint_connection" {
+  type                   = "Microsoft.Storage/storageAccounts/privateEndpointConnections@2022-09-01"
+  parent_id              = "/subscriptions/${var.azure_subscription_id}/resourceGroups/${var.data_storage_account_rg}/providers/Microsoft.Storage/storageAccounts/${var.data_storage_account}"
+  response_export_values = ["*"]
+  depends_on = [ databricks_mws_ncc_private_endpoint_rule.storage ]
+}
+
+
+output "list_storage_private_endpoint_connection" {
+  value = [ for i in data.azapi_resource_list.list_storage_private_endpoint_connection.output.value :  i.name if (i.properties.privateLinkServiceConnectionState.status == "Pending")]
+}
+
+/*
+resource "azapi_update_resource" "approve_storage_private_endpoint_connection" {
+  for_each = toset([ for i in data.azapi_resource_list.list_storage_private_endpoint_connection.output.value :  i.name if (i.properties.privateLinkServiceConnectionState.status == "Pending")])
+  type      = "Microsoft.Storage/storageAccounts/privateEndpointConnections@2022-09-01"
+  name      = each.value
+  parent_id = data.azurerm_storage_account.data_storage_account.id
+
+  body = {
+    properties = {
+      privateLinkServiceConnectionState = {
+        description = "Auto Approved via Terraform"
+        status      = "Approved"
+      }
+    }
+  }
+
+  depends_on = [data.azapi_resource_list.list_storage_private_endpoint_connection]
+}
+
+*/
