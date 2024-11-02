@@ -20,9 +20,11 @@ resource "databricks_mws_ncc_private_endpoint_rule" "storage" {
   depends_on = [data.restapi_object.ncc]
 }
 
+/*
 output "name" {
   value = databricks_mws_ncc_private_endpoint_rule.storage.endpoint_name
 }
+*/
 
 data "azapi_resource_list" "list_storage_private_endpoint_connection" {
   type                   = "Microsoft.Storage/storageAccounts/privateEndpointConnections@2022-09-01"
@@ -31,16 +33,18 @@ data "azapi_resource_list" "list_storage_private_endpoint_connection" {
   depends_on = [ databricks_mws_ncc_private_endpoint_rule.storage ]
 }
 
-
-output "list_storage_private_endpoint_connection" {
-  value = [ for i in data.azapi_resource_list.list_storage_private_endpoint_connection.output.value :  i.name if (i.properties.privateLinkServiceConnectionState.status == "Pending")]
+/*output "name_pepc" {
+  value = data.azapi_resource_list.list_storage_private_endpoint_connection.output.value
 }
 
-/*
+output "list_storage_private_endpoint_connection" {
+  value = [ for i in data.azapi_resource_list.list_storage_private_endpoint_connection.output.value :  i.name if endswith(i.properties.privateEndpoint.id , databricks_mws_ncc_private_endpoint_rule.storage.endpoint_name)][0]
+}
+*/
+
 resource "azapi_update_resource" "approve_storage_private_endpoint_connection" {
-  for_each = toset([ for i in data.azapi_resource_list.list_storage_private_endpoint_connection.output.value :  i.name if (i.properties.privateLinkServiceConnectionState.status == "Pending")])
   type      = "Microsoft.Storage/storageAccounts/privateEndpointConnections@2022-09-01"
-  name      = each.value
+  name      = [ for i in data.azapi_resource_list.list_storage_private_endpoint_connection.output.value :  i.name if endswith(i.properties.privateEndpoint.id , databricks_mws_ncc_private_endpoint_rule.storage.endpoint_name)][0]
   parent_id = data.azurerm_storage_account.data_storage_account.id
 
   body = {
@@ -54,5 +58,3 @@ resource "azapi_update_resource" "approve_storage_private_endpoint_connection" {
 
   depends_on = [data.azapi_resource_list.list_storage_private_endpoint_connection]
 }
-
-*/
