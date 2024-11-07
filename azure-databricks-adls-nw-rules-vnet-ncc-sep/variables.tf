@@ -71,3 +71,8 @@ variable "workspace_ncc_name" {
   type = string
   default = ""
 }
+
+variable "additional_subnets" {
+  type = list(string)
+  default = []
+}

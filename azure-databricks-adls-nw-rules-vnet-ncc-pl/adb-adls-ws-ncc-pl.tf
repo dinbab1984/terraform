@@ -1,7 +1,7 @@
 data "restapi_object" "ncc" {
   path = "/api/2.0/accounts/${var.databricks_account_id}/network-connectivity-configs"
   search_key = "name"
-  search_value = "ncc-dbk-vnet-demo-workspace" //var.workspace_ncc_name
+  search_value = var.workspace_ncc_name
   id_attribute ="network_connectivity_config_id"
   results_key = "items"
 }
