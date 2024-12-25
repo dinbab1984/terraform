@@ -1,0 +1,17 @@
+azure_region = "westeurope"
+name_prefix = "dbk-exfil-demo"
+azure_tenant_id = ""
+azure_subscription_id = ""
+azure_client_id = ""
+azure_client_secret = ""
+hub_rg_name = "dbk-exfil-demo-hub-rg"
+hub_cidr_block = "10.30.0.0/24"
+fw_subnets_cidr = "10.30.0.0/26"
+databricks_workspace_vnet_rg = "dbk-exfil-demo-rg"
+databricks_workspace_vnet = "dbk-exfil-demo-vnet"
+metastoreips = ["consolidated-westeurope-prod-metastore.mysql.database.azure.com","consolidated-westeurope-prod-metastore-addl-1.mysql.database.azure.com","consolidated-westeurope-prod-metastore-addl-2.mysql.database.azure.com","consolidated-westeurope-prod-metastore-addl-3.mysql.database.azure.com","consolidated-westeuropec2-prod-metastore-0.mysql.database.azure.com","consolidated-westeuropec2-prod-metastore-1.mysql.database.azure.com" ,"consolidated-westeuropec2-prod-metastore-2.mysql.database.azure.com","consolidated-westeuropec2-prod-metastore-3.mysql.database.azure.com"]
+logstorefqdns = ["dblogprodwesteurope.blob.core.windows.net"]
+telemetryfqdns = ["prod-westeurope-observabilityeventhubs.servicebus.windows.net","prod-westeuc2-observabilityeventhubs.servicebus.windows.net"]
+systemtablestorefqdns = ["ucstprdwesteu.dfs.core.windows.net"]
+storage_servicetag = "Storage.WestEurope"
+tags = { Owner = "dinesh.kamalakkannan@databricks.com" }
