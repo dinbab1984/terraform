@@ -71,6 +71,12 @@ variable "network_security_group_rules_required" {
   type = string
   default = "AllRules"
 }
+//Disallow public access to default storage account
+variable "default_storage_firewall_enabled" {
+  description = "Disallow public access to default storage account"
+  type = bool
+  default = false
+}
 
 variable "databricks_host" {
   description = "Databricks Account URL"

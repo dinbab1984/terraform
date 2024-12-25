@@ -1,3 +1,18 @@
+
+resource "azurerm_databricks_access_connector" "ac" {
+  name = "${var.name_prefix}-ac"
+  resource_group_name = var.rg_name
+  location            = var.azure_region
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  tags = var.tags
+  
+}
+
+
 resource "azurerm_databricks_workspace" "this" {
   name                                  = "${var.name_prefix}-workspace"
   resource_group_name                   = var.rg_name
@@ -8,6 +23,8 @@ resource "azurerm_databricks_workspace" "this" {
   public_network_access_enabled         = true
   network_security_group_rules_required = var.network_security_group_rules_required
   customer_managed_key_enabled          = true
+  default_storage_firewall_enabled      = var.default_storage_firewall_enabled
+  access_connector_id                   = azurerm_databricks_access_connector.ac.id
   custom_parameters {
     no_public_ip                                         = true
     virtual_network_id                                   = azurerm_virtual_network.this.id
