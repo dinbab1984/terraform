@@ -11,7 +11,7 @@ resource "azurerm_route_table" "adbroute" {
     next_hop_in_ip_address = azurerm_firewall.hubfw.ip_configuration.0.private_ip_address // extract single item
   }
   route {
-    name                   = "to-artefcat"
+    name                   = "to-artefact"
     address_prefix         = var.storage_servicetag
     next_hop_type          = "Internet"
   }

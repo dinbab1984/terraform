@@ -5,6 +5,13 @@ resource "azurerm_private_dns_zone" "dnsdbfs" {
   tags                = var.tags
 }
 
+//private dsn zone for dbfs-blob
+resource "azurerm_private_dns_zone" "dnsdbfsblob" {
+  name                = "privatelink.blob.core.windows.net"
+  resource_group_name = var.databricks_workspace_vnet_rg
+  tags                = var.tags
+}
+
 //private dsn zone and vnet net link
 resource "azurerm_private_dns_zone_virtual_network_link" "dbfsdnszonevnetlink" {
   name                  = "dbfsvnetconnection"
@@ -13,6 +20,16 @@ resource "azurerm_private_dns_zone_virtual_network_link" "dbfsdnszonevnetlink" {
   virtual_network_id    = data.azurerm_virtual_network.ws_vnet.id // connect to spoke vnet
   tags                  = var.tags
   depends_on = [azurerm_private_dns_zone.dnsdbfs, data.azurerm_virtual_network.ws_vnet]
+}
+
+//private dsn zone (blob) and vnet net link
+resource "azurerm_private_dns_zone_virtual_network_link" "dbfsblobdnszonevnetlink" {
+  name                  = "dbfsblobvnetconnection"
+  resource_group_name   = var.databricks_workspace_vnet_rg
+  private_dns_zone_name = azurerm_private_dns_zone.dnsdbfsblob.name
+  virtual_network_id    = data.azurerm_virtual_network.ws_vnet.id // connect to spoke vnet
+  tags                  = var.tags
+  depends_on = [azurerm_private_dns_zone.dnsdbfsblob, data.azurerm_virtual_network.ws_vnet]
 }
 
 //private link for root storage
@@ -41,6 +58,27 @@ resource "azurerm_private_endpoint" "dbfs" {
     private_dns_zone_ids = [azurerm_private_dns_zone.dnsdbfs.id]
   }
   depends_on = [azurerm_subnet.plsubnet, azurerm_private_dns_zone.dnsdbfs]
+}
+
+//private end point - workspace to storage account(dbfs-blob)
+resource "azurerm_private_endpoint" "dbfsblob" {
+  name                = "dbfspvtendpointblob"
+  location            = var.azure_region
+  resource_group_name = var.databricks_workspace_vnet_rg
+  subnet_id           = azurerm_subnet.plsubnet.id
+  tags                = var.tags
+  private_service_connection {
+    name                           = "ple-${var.name_prefix}-dbfs-blob"
+    private_connection_resource_id = data.azurerm_storage_account.dbfs_storage_account.id
+    is_manual_connection           = false
+    subresource_names              = ["blob"]
+  }
+
+  private_dns_zone_group {
+    name                 = "private-dns-zone-dbfs-blob"
+    private_dns_zone_ids = [azurerm_private_dns_zone.dnsdbfsblob.id]
+  }
+  depends_on = [azurerm_subnet.plsubnet, azurerm_private_dns_zone.dnsdbfsblob]
 }
 
 //private link for data storage (here, catalog external location)
