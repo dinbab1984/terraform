@@ -12,6 +12,7 @@ resource "azurerm_firewall" "hubfw" {
   name                = "hubfirewall"
   location            = azurerm_resource_group.hubrg.location
   resource_group_name = azurerm_resource_group.hubrg.name
+  dns_proxy_enabled   = true //for firewall network rule with fqdns destination
   sku_name            = "AZFW_VNet"
   sku_tier            = "Standard"
 
@@ -49,7 +50,7 @@ resource "azurerm_firewall_application_rule_collection" "adblogstorefqdn" {
 
 
 //Firewall rule - 2. Telemetry (Azure EventHub)
-resource "azurerm_firewall_application_rule_collection" "adbtelemetryfqdn" {
+resource "azurerm_firewall_network_rule_collection" "adbtelemetryfqdn" {
   name                = "adbtelemetryfqdn"
   azure_firewall_name = azurerm_firewall.hubfw.name
   resource_group_name = azurerm_resource_group.hubrg.name
@@ -61,12 +62,13 @@ resource "azurerm_firewall_application_rule_collection" "adbtelemetryfqdn" {
 
     source_addresses = [for k,v in data.azurerm_subnet.ws_subnets : data.azurerm_subnet.ws_subnets[k].address_prefixes[0]]
 
-    target_fqdns = var.telemetryfqdns
+    destination_fqdns = var.telemetryfqdns
 
-    protocol {
-      port = "9093"
-      type = "Https"
-    }
+    destination_ports = ["9093"]
+
+    protocols = [
+      "TCP"
+    ]
   }
   depends_on = [ azurerm_firewall.hubfw , data.azurerm_subnet.ws_subnets ]
 }
