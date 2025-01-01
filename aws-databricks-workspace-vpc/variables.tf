@@ -52,6 +52,24 @@ variable "databricks_metastore" {
   default     = ""
 }
 
+//for vpc
+variable "cidr_block" {
+  description = "VPC CIDR block range"
+  type        = string
+  default = ""
+}
+
+// for cluster
+variable "public_subnets_cidr" {
+  type = map(any)
+  default = {}
+}
+
+variable "private_subnets_cidr" {
+  type = map(any)
+  default = {}
+}
+
 variable "workspace_admin" {
   description = "Email id of workspace admin"
   type        = string

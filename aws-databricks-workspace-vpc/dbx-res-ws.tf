@@ -7,12 +7,12 @@ resource "databricks_mws_workspaces" "this" {
 
   credentials_id           = databricks_mws_credentials.this.credentials_id
   storage_configuration_id = databricks_mws_storage_configurations.this.storage_configuration_id
-  //network_id               = databricks_mws_networks.this.network_id
+  network_id               = databricks_mws_networks.this.network_id
 
   token {
     comment = "Terraform"
   }
-  depends_on = [databricks_mws_credentials.this, databricks_mws_storage_configurations.this]//, databricks_mws_networks.this]
+  depends_on = [databricks_mws_credentials.this, databricks_mws_storage_configurations.this, databricks_mws_networks.this]
 }
 
 //Get metastore IDs

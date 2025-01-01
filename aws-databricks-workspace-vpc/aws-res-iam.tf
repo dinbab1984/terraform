@@ -14,7 +14,7 @@ resource "aws_iam_role" "cross_account_role" {
 
 data "databricks_aws_crossaccount_policy" "this" {
   provider = databricks.mws
-  policy_type = "managed"
+  policy_type = "customer"
 }
 
 // policy to allows cluster creation
