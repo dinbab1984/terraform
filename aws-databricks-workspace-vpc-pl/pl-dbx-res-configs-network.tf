@@ -7,8 +7,8 @@ resource "databricks_mws_networks" "this" {
   subnet_ids         = [for k, v in var.private_subnets_cidr : aws_subnet.private_subnet[k].id]
   vpc_id             = aws_vpc.this.id
   vpc_endpoints {
-    dataplane_relay = [databricks_mws_vpc_endpoint.relay.vpc_endpoint_id]
-    rest_api        = [databricks_mws_vpc_endpoint.backend_rest_vpce.vpc_endpoint_id]
+    dataplane_relay = [databricks_mws_vpc_endpoint.db_vpce_backend_scc_relay.vpc_endpoint_id]
+    rest_api        = [databricks_mws_vpc_endpoint.db_vpce_backend_rest.vpc_endpoint_id]
   }
 }
 

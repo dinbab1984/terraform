@@ -13,6 +13,7 @@ private_subnets_cidr = {"eu-west-1a" : "10.20.3.0/24", "eu-west-1b" : "10.20.4.0
 workspace_admin = ""
 tags = { Owner = "" }
 //pl-specific
-pl_subnets_cidr = {"eu-west-1a" : "10.20.5.0/24", "eu-west-1b" : "10.20.6.0/24"}
+backend_pl_subnets_cidr = {"eu-west-1a" : "10.20.5.0/24", "eu-west-1b" : "10.20.6.0/24"}
 db_rest_service = "com.amazonaws.vpce.eu-west-1.vpce-svc-0da6ebf1461278016"
 db_scc_relay_service = "com.amazonaws.vpce.eu-west-1.vpce-svc-09b4eb2bc775f4e8c"
+vpc_network_acl_ports = [443, 3306, 6666, 2443, 8443, 8444, 8445]
