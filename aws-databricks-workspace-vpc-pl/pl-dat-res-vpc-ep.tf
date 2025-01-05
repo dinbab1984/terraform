@@ -14,7 +14,7 @@ resource "aws_vpc_endpoint" "s3" {
 //security group for other aws resources
 // VPC's Default Security Group
 locals {
-  sg_ingress_ports             = [3306]
+  //sg_ingress_ports             = [3306]
   sg_egress_ports              = [443, 6666, 2443, 3306]
   sg_ingress_protocol          = ["tcp", "udp"]
   sg_egress_protocol           = ["tcp", "udp"]
@@ -57,7 +57,7 @@ resource "aws_security_group" "default_sg" {
   }
 
   //Inbound tcp access to 0.0.0.0/0 , ports 3306
-  dynamic "ingress" {
+  /*dynamic "ingress" {
     for_each = local.sg_ingress_ports
     content {
       from_port   = ingress.value
@@ -65,7 +65,7 @@ resource "aws_security_group" "default_sg" {
       protocol    = "tcp"
       cidr_blocks = [aws_vpc.this.cidr_block]
     }
-  }
+  }*/
 
   tags = merge(var.tags,{
     Name = "${var.name_prefix}-spoke-vpc-sg"

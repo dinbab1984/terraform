@@ -106,3 +106,9 @@ variable "vpc_network_acl_ports" {
   //8445 through 8451: Future extendability.
 }
 
+//Legacy Metastore fqdn of region
+variable "metastorefqdn" { 
+  description = "Metastore  Store FQDN in the region"
+  type = string
+  default = "md15cf9e1wmjgny.cxg30ia2wqgj.eu-west-1.rds.amazonaws.com"
+}
