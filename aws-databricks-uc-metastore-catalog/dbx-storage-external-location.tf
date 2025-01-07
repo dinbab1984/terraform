@@ -81,6 +81,13 @@ resource "aws_iam_role" "catalog_iam_role" {
   depends_on          = [data.databricks_aws_unity_catalog_assume_role_policy.this, aws_iam_policy.catalog_iam_policy]
 }
 
+
+//credentials configurations
+resource "time_sleep" "wait_30_seconds" {
+  create_duration = "30s"
+  depends_on = [aws_iam_role.catalog_iam_role, aws_iam_policy.catalog_iam_policy]
+}
+
 //Add External location
 resource "databricks_external_location" "catalog_external_location" {
   provider        = databricks.workspace
@@ -91,7 +98,7 @@ resource "databricks_external_location" "catalog_external_location" {
   credential_name = databricks_storage_credential.catalog_storage_credential.name
   force_destroy   = true
   comment         = "Managed by TF"
-  depends_on      = [databricks_storage_credential.catalog_storage_credential, aws_s3_bucket.catalog_storage_bucket,aws_iam_role.catalog_iam_role, aws_iam_policy.catalog_iam_policy]
+  depends_on      = [time_sleep.wait_30_seconds, aws_s3_bucket.catalog_storage_bucket,databricks_storage_credential.catalog_storage_credential,aws_iam_role.catalog_iam_role, aws_iam_policy.catalog_iam_policy]
 }
 
 //provide access to external location to workspace admins

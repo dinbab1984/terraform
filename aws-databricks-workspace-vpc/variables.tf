@@ -60,7 +60,7 @@ variable "cidr_block" {
 }
 
 // for cluster
-variable "public_subnets_cidr" {
+variable "nat_subnets_cidr" {
   type = map(any)
   default = {}
 }
@@ -80,3 +80,15 @@ variable "tags" {
   default = {}
 }
 
+//network ACLs for the vpc subnets
+variable "vpc_network_acl_ports" {
+  type = list(number)
+  default = [443, 3306, 6666, 2443, 8443, 8444, 8445]
+  //443 for Databricks infrastructure, cloud data sources, and library repositories
+  //3306: for the metastore
+  //6666: for PrivateLink
+  //2443: only for use with compliance security profile
+  //8443: for internal calls from the Databricks compute plane to the Databricks control plane API
+  //8444: for Unity Catalog logging and lineage data streaming into Databricks.
+  //8445 through 8451: Future extendability.
+}
