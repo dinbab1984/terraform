@@ -1,3 +1,4 @@
+/*
 //S3 VPC Endpoint
 resource "aws_vpc_endpoint" "s3" {
   vpc_id          = aws_vpc.this.id
@@ -55,7 +56,7 @@ resource "aws_security_group" "default_sg" {
       cidr_blocks = ["0.0.0.0/0"]
     }
   }
-
+*/
   //Inbound tcp access to 0.0.0.0/0 , ports 3306
   /*dynamic "ingress" {
     for_each = local.sg_ingress_ports
@@ -66,42 +67,45 @@ resource "aws_security_group" "default_sg" {
       cidr_blocks = [aws_vpc.this.cidr_block]
     }
   }*/
-
+/*
   tags = merge(var.tags,{
     Name = "${var.name_prefix}-spoke-vpc-sg"
   })
 }
 
+*/
+
 resource "aws_vpc_endpoint" "kinesis-streams" {
-  vpc_id              = aws_vpc.this.id
-  security_group_ids  = [aws_security_group.default_sg.id]
+  vpc_id              = aws_vpc.vpc_hub.id
+  security_group_ids  = [aws_security_group.sg_pl_backend.id]
   service_name        = "com.amazonaws.${var.aws_region}.kinesis-streams"
   //service_name        = "kinesis.${var.aws_region}.amazonaws.com"
   vpc_endpoint_type   = "Interface"
   private_dns_enabled = true
-  subnet_ids          = [ for k,v in var.private_subnets_cidr : aws_subnet.private_subnet[k].id ]
+  subnet_ids          = [ for k,v in var.backend_pl_subnets_cidr_hub : aws_subnet.subnet_pl_backend[k].id ]
   tags = merge(var.tags,{
     Name = "${var.name_prefix}-kinesis-vpc-endpoint"
   })
-  depends_on = [aws_vpc.this, aws_subnet.private_subnet]
+  depends_on = [aws_vpc.vpc_hub, aws_subnet.subnet_pl_backend]
 }
 
 module "vpc_endpoints" {
   source  = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
   version = "3.11.0"
 
-  vpc_id = aws_vpc.this.id
-  security_group_ids = [aws_security_group.default_sg.id]
+  vpc_id = aws_vpc.vpc_hub.id
+  security_group_ids = [aws_security_group.sg_pl_backend.id]
 
   endpoints = {
     sts = {
       service             = "sts"
       private_dns_enabled = true
-      subnet_ids          = [for k, v in var.private_subnets_cidr : aws_subnet.private_subnet[k].id]
+      subnet_ids          = [for k, v in var.backend_pl_subnets_cidr_hub : aws_subnet.subnet_pl_backend[k].id]
       tags = merge(var.tags,{
         Name = "${var.name_prefix}-sts-vpc-endpoint"
       })
     },
   }
   tags = var.tags
+  depends_on = [ aws_vpc.vpc_hub,aws_security_group.sg_pl_backend, aws_subnet.subnet_pl_backend ]
 }

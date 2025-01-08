@@ -1,32 +1,33 @@
 // this subnet houses the data plane VPC endpoints
 resource "aws_subnet" "subnet_pl_backend" {
-  for_each               = var.backend_pl_subnets_cidr
-  vpc_id                 = aws_vpc.this.id
+  for_each               = var.backend_pl_subnets_cidr_hub
+  vpc_id                 = aws_vpc.vpc_hub.id
   availability_zone      = each.key
   cidr_block             = each.value
   map_public_ip_on_launch = false
 
   tags = merge(var.tags,{
-    Name = "${var.name_prefix}-subnet-pl-backend-${each.key}"
+    Name = "${var.name_prefix}-subnet-pl-backend-hub-${each.key}"
   })
-  depends_on = [aws_vpc.this]
+  depends_on = [aws_vpc.vpc_hub]
 }
 
 
 //Add security group for Backend Private Link 
 resource "aws_security_group" "sg_pl_backend" {
-  name        = "${var.name_prefix}-sg-pl-backend"
+  name        = "${var.name_prefix}-sg-pl-backend-hub"
   description =  "Data Plane VPC endpoint security group for Backend Private Link"
-  vpc_id      = aws_vpc.this.id
+  vpc_id      = aws_vpc.vpc_hub.id
   tags =  merge(var.tags,{
-    Name = "${var.name_prefix}-sg-pl-backend"
+    Name = "${var.name_prefix}-sg-pl-backend-hub"
   })
+  depends_on = [ aws_vpc.vpc_hub ]
 }
 
 // Add egress rule to Backend Private Link (rest)
 resource "aws_vpc_security_group_egress_rule" "sg_egress_rule_backend_rest" {
   security_group_id = aws_security_group.sg_pl_backend.id
-  cidr_ipv4   = var.cidr_block
+  cidr_ipv4   = var.cidr_block_hub
   from_port   = 443
   ip_protocol = "tcp"
   to_port     = 443
@@ -39,7 +40,7 @@ resource "aws_vpc_security_group_egress_rule" "sg_egress_rule_backend_rest" {
 // Add egress rule to Backend Private Link (scc relay)
 resource "aws_vpc_security_group_egress_rule" "backend_scc_relay_sg_egress_rule" {
   security_group_id = aws_security_group.sg_pl_backend.id
-  cidr_ipv4   = var.cidr_block
+  cidr_ipv4   = var.cidr_block_hub
   from_port   = 6666
   ip_protocol = "tcp"
   to_port     = 6666
@@ -52,7 +53,7 @@ resource "aws_vpc_security_group_egress_rule" "backend_scc_relay_sg_egress_rule"
 // Add ingress rule to Backend Private Link (rest)
 resource "aws_vpc_security_group_ingress_rule" "sg_ingress_rule_backend_rest" {
   security_group_id = aws_security_group.sg_pl_backend.id
-  cidr_ipv4   = var.cidr_block
+  cidr_ipv4   = var.cidr_block_hub
   from_port   = 443
   ip_protocol = "tcp"
   to_port     = 443
@@ -65,7 +66,7 @@ resource "aws_vpc_security_group_ingress_rule" "sg_ingress_rule_backend_rest" {
 // Add ingress rule to Backend Private Link (scc relay)
 resource "aws_vpc_security_group_ingress_rule" "backend_scc_relay_sg_ingress_rule" {
   security_group_id = aws_security_group.sg_pl_backend.id
-  cidr_ipv4   = var.cidr_block
+  cidr_ipv4   = var.cidr_block_hub
   from_port   = 6666
   ip_protocol = "tcp"
   to_port     = 6666
@@ -78,11 +79,11 @@ resource "aws_vpc_security_group_ingress_rule" "backend_scc_relay_sg_ingress_rul
 //private links
 //rest api
 resource "aws_vpc_endpoint" "vpce_backend_rest" {
-  vpc_id              = aws_vpc.this.id
+  vpc_id              = aws_vpc.vpc_hub.id
   service_name        = var.db_rest_service
   vpc_endpoint_type   = "Interface"
   security_group_ids  = [aws_security_group.sg_pl_backend.id]
-  subnet_ids          = [for k,v in var.backend_pl_subnets_cidr : aws_subnet.subnet_pl_backend[k].id]
+  subnet_ids          = [for k,v in var.backend_pl_subnets_cidr_hub : aws_subnet.subnet_pl_backend[k].id]
   private_dns_enabled = true
   tags = merge(var.tags,{
     Name = "${var.name_prefix}-vpce-backend-rest"
@@ -92,7 +93,7 @@ resource "aws_vpc_endpoint" "vpce_backend_rest" {
 
 //scc relay
 resource "aws_vpc_endpoint" "vpce_backend_scc_relay" {
-  vpc_id              = aws_vpc.this.id
+  vpc_id              = aws_vpc.vpc_hub.id
   service_name        = var.db_scc_relay_service
   vpc_endpoint_type   = "Interface"
   security_group_ids  = [aws_security_group.sg_pl_backend.id]
@@ -126,17 +127,18 @@ resource "databricks_mws_vpc_endpoint" "db_vpce_backend_scc_relay" {
 
 /* Routing table for subnet pl backend */
 resource "aws_route_table" "rt_subnet_pl_backend" {
-  for_each = var.backend_pl_subnets_cidr
-  vpc_id   = aws_vpc.this.id
+  for_each = var.backend_pl_subnets_cidr_hub
+  vpc_id   = aws_vpc.vpc_hub.id
   tags = merge(var.tags, {
     Name = "${var.name_prefix}-route-tbl-subnet-pl-backend-${each.key}"
   })
-  depends_on = [aws_vpc.this]
+  depends_on = [aws_vpc.vpc_hub]
 }
+
 
 // Routing table associations - subnet pl subnet
 resource "aws_route_table_association" "rta_subnet_pl_backend" {
-  for_each  = var.backend_pl_subnets_cidr
+  for_each  = var.backend_pl_subnets_cidr_hub
   subnet_id = aws_subnet.subnet_pl_backend[each.key].id
   route_table_id = aws_route_table.rt_subnet_pl_backend[each.key].id
   depends_on = [aws_subnet.subnet_pl_backend, aws_route_table.rt_subnet_pl_backend]

@@ -59,12 +59,7 @@ variable "cidr_block" {
   default = ""
 }
 
-// for cluster
-variable "nat_subnets_cidr" {
-  type = map(any)
-  default = {}
-}
-
+//for cluster
 variable "private_subnets_cidr" {
   type = map(any)
   default = {}
@@ -113,3 +108,23 @@ variable "metastorefqdn" {
   type = string
   default = "md15cf9e1wmjgny.cxg30ia2wqgj.eu-west-1.rds.amazonaws.com"
 }
+
+//hub cidr
+variable "cidr_block_hub" {
+  description = "Hub VPC CIDR block range"
+  type        = string
+  default = "10.30.0.0/16"
+}
+
+// for nat
+variable "nat_subnets_cidr_hub" {
+  type = map(any)
+  default = {"eu-west-1a" : "10.30.1.0/24", "eu-west-1b" : "10.30.2.0/24"}
+}
+
+// for hub transit gateway
+variable "backend_pl_subnets_cidr_hub" {
+  type = map(any)
+  default = {"eu-west-1a" : "10.30.3.0/24", "eu-west-1b" : "10.30.4.0/24"}
+}
+
