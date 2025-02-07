@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "this" {
 resource "azurerm_virtual_network" "this" {
   name                = "${var.name_prefix}-vnet"
   location            = var.azure_region
-  resource_group_name = var.rg_name
+  resource_group_name = azurerm_resource_group.this.name
   address_space       = [var.cidr_block]
   tags                = var.tags
   depends_on = [azurerm_resource_group.this]
@@ -18,7 +18,7 @@ resource "azurerm_virtual_network" "this" {
 resource "azurerm_network_security_group" "this" {
   name                = "${var.name_prefix}-nsg"
   location            = var.azure_region
-  resource_group_name = var.rg_name
+  resource_group_name = azurerm_resource_group.this.name
   tags                = var.tags
   depends_on = [azurerm_resource_group.this]
 }
@@ -26,7 +26,7 @@ resource "azurerm_network_security_group" "this" {
 //vnet public subnet
 resource "azurerm_subnet" "public" {
   name                 = "${var.name_prefix}-public"
-  resource_group_name  = var.rg_name
+  resource_group_name  = azurerm_resource_group.this.name
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = [var.public_subnets_cidr]
 
@@ -54,7 +54,7 @@ resource "azurerm_subnet_network_security_group_association" "public" {
 //vnet private subnet
 resource "azurerm_subnet" "private" {
   name                 = "${var.name_prefix}-private"
-  resource_group_name  = var.rg_name
+  resource_group_name  = azurerm_resource_group.this.name
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = [var.private_subnets_cidr]
   delegation {

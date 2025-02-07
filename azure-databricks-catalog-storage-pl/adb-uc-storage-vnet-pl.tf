@@ -37,7 +37,7 @@ resource "azurerm_private_endpoint" "data" {
   tags                = var.tags
   private_service_connection {
     name                           = "ple-${var.name_prefix}-data"
-    private_connection_resource_id = data.azurerm_storage_account.data_storage_account.id
+    private_connection_resource_id = azurerm_storage_account.this.id
     is_manual_connection           = false
     subresource_names              = ["dfs"]
   }
@@ -46,11 +46,13 @@ resource "azurerm_private_endpoint" "data" {
     name                 = "private-dns-zone-dbfs"
     private_dns_zone_ids = [azurerm_private_dns_zone.dnsdbfs.id]
   }
-  depends_on = [azurerm_subnet.plsubnet, azurerm_private_dns_zone.dnsdbfs]
+  depends_on = [azurerm_subnet.plsubnet, azurerm_private_dns_zone.dnsdbfs , azurerm_storage_account.this]
 }
 
+/*
 //update data storage account netowrk rules
 resource "azurerm_storage_account_network_rules" "allow_ws_subnet" {
   storage_account_id         = data.azurerm_storage_account.data_storage_account.id
   default_action             = "Deny"
 }
+*/

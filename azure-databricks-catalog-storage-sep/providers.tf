@@ -5,16 +5,12 @@ terraform {
     azurerm = {
       source = "hashicorp/azurerm"
     }
-    databricks = {
-      source = "databricks/databricks"
-    }
     restapi = {
       source = "pruiz/restapi"
       version = "1.16.2-p2"
     }
-    azapi = {
-      source = "Azure/azapi"
-      version = "2.0.1"
+    databricks = {
+      source = "databricks/databricks"
     }
   }
 }
@@ -26,14 +22,6 @@ provider "azurerm" {
   subscription_id = var.azure_subscription_id
   client_id       = var.azure_client_id
   client_secret   = var.azure_client_secret
-}
-
-provider "databricks" {
-  alias         = "accounts"
-  host          = var.databricks_host
-  account_id    = var.databricks_account_id
-  client_id     = var.databricks_client_id
-  client_secret = var.databricks_client_secret
 }
 
 provider "restapi" {
@@ -48,13 +36,17 @@ provider "restapi" {
   }
 }
 
-provider "azapi" {
-  # More information on the authentication methods supported by
-  # the AzApi Provider can be found here:
-  # https://registry.terraform.io/providers/Azure/azapi/latest/docs
+provider "databricks" {
+  alias         = "accounts"
+  host          = var.databricks_host
+  account_id    = var.databricks_account_id
+  client_id     = var.databricks_client_id
+  client_secret = var.databricks_client_secret
+}
 
-  subscription_id = var.azure_subscription_id
-  client_id       = var.azure_client_id
-  client_secret   = var.azure_client_secret
-  tenant_id       = var.azure_tenant_id
+provider "databricks" {
+  alias         = "workspace"
+  host          = var.databricks_workspace_host
+  client_id     = var.databricks_client_id
+  client_secret = var.databricks_client_secret
 }

@@ -15,9 +15,9 @@ data "restapi_object" "ncc" {
 resource "databricks_mws_ncc_private_endpoint_rule" "storage" {
   provider                       = databricks.accounts
   network_connectivity_config_id = jsondecode(data.restapi_object.ncc.api_response).network_connectivity_config_id
-  resource_id                    = data.azurerm_storage_account.data_storage_account.id
+  resource_id                    = azurerm_storage_account.this.id
   group_id                       = "dfs"
-  depends_on = [data.restapi_object.ncc]
+  depends_on = [data.restapi_object.ncc, azurerm_storage_account.this]
 }
 
 /*
@@ -45,7 +45,7 @@ output "list_storage_private_endpoint_connection" {
 resource "azapi_update_resource" "approve_storage_private_endpoint_connection" {
   type      = "Microsoft.Storage/storageAccounts/privateEndpointConnections@2022-09-01"
   name      = [ for i in data.azapi_resource_list.list_storage_private_endpoint_connection.output.value :  i.name if endswith(i.properties.privateEndpoint.id , databricks_mws_ncc_private_endpoint_rule.storage.endpoint_name)][0]
-  parent_id = data.azurerm_storage_account.data_storage_account.id
+  parent_id = azurerm_storage_account.this.id
 
   body = {
     properties = {

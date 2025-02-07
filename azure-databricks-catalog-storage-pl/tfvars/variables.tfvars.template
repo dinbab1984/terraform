@@ -1,12 +1,13 @@
 azure_region = "westeurope"
-adls_sa_name = "adls4dbksepdemo"
-storage_account_allowed_ips = ["<terraform env ip>", "52.232.19.246", "40.74.30.80", "20.103.219.240/28", "4.150.168.160/28"]
-rg_name = "dbk-sep-demo-adls-rg"
-name_prefix = "dbk-sep-demo-adls"
+data_storage_account = "adls4dbkpldemo"
+storage_account_allowed_ips = ["130.41.207.12"] # e.g. terraform env. ip
+data_storage_account_rg = "dbk-pl-demo-adls-rg"
+name_prefix = "dbk-pl-demo-adls"
 azure_tenant_id = ""
 azure_subscription_id = ""
 azure_client_id = ""
 azure_client_secret = ""
+pl_subnets_cidr = "10.20.1.0/27"
 databricks_host = "https://accounts.azuredatabricks.net"
 databricks_workspace_host = ""
 databricks_account_id = ""
@@ -16,7 +17,7 @@ databricks_workspace_vnet = "dbk-vnet-demo-vnet"
 databricks_workspace_vnet_rg = "dbk-vnet-demo-rg"
 workspace_ncc_name = "ncc-dbk-vnet-demo-workspace"
 databricks_metastore = "dbk-demo-uc-westeurope" //"dinbab-tf-uc-metastore"
-databricks_calalog = "sep"
-tags = { Owner = "dinesh.kamalakkannan@databricks.com" }
-principal_name = "dinesh.kamalakkannan@databricks.com"
+databricks_calalog = "pl"
+tags = { Owner = "" }
+principal_name = ""
 catalog_privileges = ["ALL_PRIVILEGES"]

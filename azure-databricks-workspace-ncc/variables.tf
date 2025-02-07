@@ -59,18 +59,6 @@ variable "databricks_workspace_rg" {
   default = ""
 }
 
-variable "data_storage_account_rg" {
-  description = "Data Storage Account resource group (here, storage for catalog - external location)"
-  type        = string
-  default     = ""
-}
-
-variable "data_storage_account" {
-  description = "Data Storage Account name (here, storage for catalog - external location)"
-  type        = string
-  default     = ""
-}
-
 variable "tags" {
   default = ""
 }

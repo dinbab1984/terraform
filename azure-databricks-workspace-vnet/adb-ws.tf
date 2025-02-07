@@ -1,7 +1,7 @@
 
 resource "azurerm_databricks_access_connector" "ac" {
   name = "${var.name_prefix}-ac"
-  resource_group_name = var.rg_name
+  resource_group_name = azurerm_resource_group.this.name
   location            = var.azure_region
 
   identity {
@@ -15,7 +15,7 @@ resource "azurerm_databricks_access_connector" "ac" {
 
 resource "azurerm_databricks_workspace" "this" {
   name                                  = "${var.name_prefix}-workspace"
-  resource_group_name                   = var.rg_name
+  resource_group_name                   = azurerm_resource_group.this.name
   managed_resource_group_name           = "${var.name_prefix}-mrg"
   location                              = var.azure_region
   sku                                   = "premium"

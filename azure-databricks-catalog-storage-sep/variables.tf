@@ -1,25 +1,37 @@
+variable "azure_region" {
+  type    = string
+  default = ""
+}
+
 variable "azure_tenant_id" {
-  type  = string
+  type    = string
   default = ""
 }
 
 variable "azure_subscription_id" {
-  type  = string
+  type    = string
   default = ""
 }
 
 variable "azure_client_id" {
-  type  = string
+  description = "Azure service principal with needed permissions"
+  type    = string
   default = ""
 }
 
 variable "azure_client_secret" {
-  type  = string
+  type    = string
   default = ""
 }
 
 variable "databricks_host" {
   description = "Databricks Account URL"
+  type        = string
+  default     = ""
+}
+
+variable "databricks_workspace_host" {
+  description = "Databricks Workspace URL"
   type        = string
   default     = ""
 }
@@ -43,16 +55,22 @@ variable "databricks_client_secret" {
 }
 
 variable "data_storage_account_rg" {
-  description = "Data Storage Account resource group (here, storage for catalog - external location)"
+  description = "ALDS Storage account resource group"
   type        = string
   default     = ""
 }
 
 variable "data_storage_account" {
-  description = "Data Storage Account name (here, storage for catalog - external location)"
+  description = "ALDS Storage account Name"
   type        = string
   default     = ""
 }
+
+variable "storage_account_allowed_ips" {
+  type = list(string)
+  default = []
+}
+
 
 variable "databricks_workspace_vnet" {
   description = "Name of databricks workspace VNET"
@@ -75,4 +93,40 @@ variable "workspace_ncc_name" {
 variable "additional_subnets" {
   type = list(string)
   default = []
+}
+
+//nane_prefix for databricks resources
+variable "name_prefix" {
+  type    = string
+  default = ""
+}
+
+variable "databricks_metastore" {
+  description = "Name of the UC metastore"
+  type    = string
+  default = ""
+}
+
+variable "databricks_calalog" {
+  description = "Name of catalog in metastore"
+  type        = string
+  default     = ""
+}
+
+variable "principal_name" {
+  description = "Name of principal to grant access to catalog"
+  type        = string
+  default     = ""
+}
+
+variable "catalog_privileges" {
+  description = "List of Privileges to catalog (grant to principal_name)"
+  type        = list(string)
+  default     = ["BROWSE"]
+}
+
+variable "tags" {
+  default = {
+    Owner = ""
+  }
 }
