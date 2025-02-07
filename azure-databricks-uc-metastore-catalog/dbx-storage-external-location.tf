@@ -18,7 +18,7 @@ resource "azurerm_storage_account" "this" {
 //containers with the storage account
 resource "azurerm_storage_container" "this" {
   name                  = "container"
-  storage_account_name  = azurerm_storage_account.this.name
+  storage_account_id    = azurerm_storage_account.this.id
   container_access_type = "container"
   depends_on            = [azurerm_storage_account.this]
 }
