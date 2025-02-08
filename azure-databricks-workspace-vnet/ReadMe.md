@@ -40,7 +40,7 @@
 - Control Plane to DBFS is going over Azure Backbone since both are first party Azure services
 - Users access Databricks over the Public Internet
 - Do NOT use DBFS as a storage layer (e.g. no access control) but rather use storage accounts with Unity Catalog access control for all customer tables, volumes, …
-
+- Note : network_security_group_rules_required =  "AllRules" (for no backend privatelink) or "NoAzureDatabricksRules" (for backend privatelink) 
 
 ### Network Architecture
 #### Option 1 : Public Endpoints
