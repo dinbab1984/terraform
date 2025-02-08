@@ -41,7 +41,7 @@ resource "azurerm_subnet" "public" {
     }
   }
   depends_on = [azurerm_virtual_network.this]
-  service_endpoints = var.private_subnet_endpoints
+  service_endpoints = var.subnet_service_endpoints
 }
 
 //vnet public subnet - network security group association
@@ -68,7 +68,7 @@ resource "azurerm_subnet" "private" {
     }
   }
   depends_on = [azurerm_virtual_network.this]
-  service_endpoints = var.private_subnet_endpoints
+  service_endpoints = var.subnet_service_endpoints
 }
 
 //vnet private subnet - network security group association

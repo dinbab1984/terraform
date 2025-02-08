@@ -60,7 +60,7 @@ variable "public_subnets_cidr" {
   default = "10.20.0.128/25"
 }
 
-variable "private_subnet_endpoints" {
+variable "subnet_service_endpoints" {
     type = list(string)
     default = []
 }
