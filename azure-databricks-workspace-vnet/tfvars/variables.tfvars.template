@@ -12,6 +12,7 @@ public_subnets_cidr = "10.20.0.128/25"
 subnet_service_endpoints = ["Microsoft.Sql", "Microsoft.EventHub","Microsoft.Storage"]
 network_security_group_rules_required = "NoAzureServiceRules" #"NoAzureDatabricksRules" (add backend privatelink) # "AllRules"
 default_storage_firewall_enabled = true
+public_network_access_enabled = true
 databricks_host = ""
 databricks_account_id = ""
 databricks_client_id = ""

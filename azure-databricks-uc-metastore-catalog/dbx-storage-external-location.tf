@@ -12,6 +12,10 @@ resource "azurerm_storage_account" "this" {
   name                     = var.adls_sa_name
   resource_group_name      = var.rg_name
   is_hns_enabled           = true
+    network_rules {
+    default_action = var.storage_account_network_default_action
+    ip_rules = var.storage_account_allowed_ips
+  }
   tags                     = var.tags
   depends_on               = [azurerm_resource_group.this]
 }

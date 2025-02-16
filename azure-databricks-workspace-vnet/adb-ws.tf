@@ -20,7 +20,7 @@ resource "azurerm_databricks_workspace" "this" {
   location                              = var.azure_region
   sku                                   = "premium"
   tags                                  = var.tags
-  public_network_access_enabled         = true
+  public_network_access_enabled         = var.public_network_access_enabled
   network_security_group_rules_required = var.network_security_group_rules_required
   customer_managed_key_enabled          = true
   default_storage_firewall_enabled      = var.default_storage_firewall_enabled

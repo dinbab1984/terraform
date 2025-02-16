@@ -78,6 +78,13 @@ variable "default_storage_firewall_enabled" {
   default = false
 }
 
+//Allow public access to frontend workspace web ui
+variable "public_network_access_enabled" {
+  description = "Allow public access to frontend workspace web ui"
+  type = bool
+  default = true
+}
+
 variable "databricks_host" {
   description = "Databricks Account URL"
   type        = string

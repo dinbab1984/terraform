@@ -1,6 +1,6 @@
 azure_region = "westeurope"
 data_storage_account = "adls4dbkpldemo"
-storage_account_allowed_ips = ["130.41.207.12"] # e.g. terraform env. ip
+storage_account_allowed_ips = [] # e.g. terraform env. ip
 data_storage_account_rg = "dbk-pl-demo-adls-rg"
 name_prefix = "dbk-pl-demo-adls"
 azure_tenant_id = ""

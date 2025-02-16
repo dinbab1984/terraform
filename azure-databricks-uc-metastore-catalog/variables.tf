@@ -78,6 +78,17 @@ variable "name_prefix" {
   default = ""
 }
 
+variable "storage_account_network_default_action" {
+  type    = string
+  default = "Allow"
+}
+
+variable "storage_account_allowed_ips" {
+  type = list(string)
+  default = []
+}
+
+
 variable "databricks_metastore" {
   description = "Name of the UC metastore"
   type    = string
@@ -101,3 +112,5 @@ variable "catalog_privileges" {
   type        = list(string)
   default     = ["BROWSE"]
 }
+
+

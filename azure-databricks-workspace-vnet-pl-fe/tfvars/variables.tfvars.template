@@ -1,0 +1,12 @@
+azure_region = "westeurope"
+name_prefix = "dbk-vnet-pl"
+azure_tenant_id = ""
+azure_subscription_id = ""
+azure_client_id = ""
+azure_client_secret = ""
+transit_vnet_rg = "dbk-vnet-pl-transit-rg"
+transit_cidr_block = "10.30.0.0/24"
+transit_pl_subnets_cidr = "10.30.0.0/26"
+databricks_workspace_rg = "dbk-vnet-pl-rg"
+databricks_workspace = "dbk-vnet-pl-workspace"
+tags = { Owner = "" }
